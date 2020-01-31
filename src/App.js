@@ -14,7 +14,7 @@ export default function App() {
   const [charactersPage, setCharactersPage] = useState(1);
 
   useEffect(() => {
-    axios.get(`https://rickandmortyapi.com/api/character/${charactersQuery ? `?name=${charactersQuery}`:''}${charactersQuery ? `&page=${charactersPage}`: ''}`)
+    axios.get(`https://rickandmortyapi.com/api/character/?${charactersQuery ? `name=${charactersQuery}`:''}${charactersQuery ? '&' : ''}${`page=${charactersPage}`}`)
       .then((res) => {
         console.log(res.data.results)
         setCharacters(res.data.results)
@@ -32,7 +32,7 @@ export default function App() {
         <WelcomePage  />
       </Route>
       <Route path='/characters'>
-      <CharacterList characters={characters} charactersQuery={charactersQuery} setCharactersQuery={setCharactersQuery}/>
+      <CharacterList characters={characters} charactersQuery={charactersQuery} setCharactersQuery={setCharactersQuery} charactersPage={charactersPage} setCharactersPage={setCharactersPage}/>
       </Route>
     </main>
   );
