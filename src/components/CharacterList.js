@@ -1,16 +1,35 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import styled from 'styled-components';
 
-export default function CharacterList() {
-  // TODO: Add useState to track data from useEffect
+import SearchForm from './SearchForm';
+import CharacterCard from './CharacterCard';
 
-  useEffect(() => {
-    // TODO: Add API Request here - must run in `useEffect`
-    //  Important: verify the 2nd `useEffect` parameter: the dependancies array!
-  }, []);
+const Button = styled.button`
+  height: 1.5rem;
+  display: inline-block;
+  border-radius: 5px;
+`;
+
+export default function CharacterList({characters, charactersQuery, setCharactersQuery, charactersPage, setCharactersPage}) {
+  
+  const nextPage = () => {
+    setCharactersPage(charactersPage + 1)
+  }
+  const previousPage = () => {
+    setCharactersPage(charactersPage - 1)
+  }
 
   return (
     <section className="character-list">
-      <h2>TODO: `array.map()` over your state here!</h2>
+      <SearchForm query={charactersQuery} setQuery={setCharactersQuery} setPage={setCharactersPage}/>
+      {characters.length === 0 || <>{charactersPage === 1 || <Button onClick={() => {previousPage()}}>Previous page</Button>}
+      <Button onClick={() => {nextPage()}}>Next page</Button></>}
+      {characters.length > 0 || <p>No results</p>}
+      {characters.map((character) => {
+        return (
+          <CharacterCard key={character.id} character={character} />
+        )
+      })}
     </section>
   );
 }
